@@ -35,7 +35,6 @@ public class Controller implements ActionListener , ListSelectionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
-        System.out.println("Action "+actionCommand);
         switch (actionCommand){
             case "Load File":
                 loadFile();
@@ -74,7 +73,6 @@ public class Controller implements ActionListener , ListSelectionListener{
     public void valueChanged(ListSelectionEvent e) {
         int selectedIndex = frame.getInvoiceTable().getSelectedRow();
         if(selectedIndex != -1){
-        System.out.println("you have selected row: " +selectedIndex );
         InvoiceHeader CurrentInvoice = frame.getInvoices().get(selectedIndex);
         frame.getInvoiceNumberlbl().setText(""+CurrentInvoice.getNum());
         frame.getInvoiceDatelbl().setText(CurrentInvoice.getDate());
@@ -94,7 +92,6 @@ public class Controller implements ActionListener , ListSelectionListener{
             File headerFile = fc.getSelectedFile();
             Path headerPath = Paths.get(headerFile.getAbsolutePath());
             List<String> headerLines = Files.readAllLines(headerPath);
-            System.out.println("Invoices have been read ");
             ArrayList<InvoiceHeader> invoicesArray = new ArrayList<>();
             for (String headerLine : headerLines){
                 String[] headerParts = headerLine.split(",");
@@ -104,13 +101,11 @@ public class Controller implements ActionListener , ListSelectionListener{
                 InvoiceHeader invoice = new InvoiceHeader(invoiceNum,invoiceDate,customerName);
                 invoicesArray.add(invoice);
             }
-            System.out.println("Ceck point");
             result = fc.showOpenDialog(frame);
             if(result == JFileChooser.APPROVE_OPTION){
                 File lineFile = fc.getSelectedFile();
                 Path linePath = Paths.get(lineFile.getAbsolutePath());
                 List<String> lineLines = Files.readAllLines(linePath);
-                System.out.println("Lines have been read ");
                 for (String lineLine : lineLines){
                     String[] lineParts = lineLine.split(",");
                     int invoiceNum = Integer.parseInt(lineParts[0]);
@@ -127,7 +122,6 @@ public class Controller implements ActionListener , ListSelectionListener{
                    InvoiceLine line = new InvoiceLine(itemName,itemPrice,count,inv);
                     inv.getLines().add(line);
                 }
-                System.out.println("Ceck point");
             }
             frame.setInvoices(invoicesArray);
             InvoicesTable invoicesTable = new InvoicesTable(invoicesArray);
@@ -154,7 +148,6 @@ public class Controller implements ActionListener , ListSelectionListener{
                 lines += "\n";
             }
         }
-        System.out.println("check point");
         try{ 
         JFileChooser fc = new JFileChooser();
         int result = fc.showSaveDialog(frame);
